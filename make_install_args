@@ -1,0 +1,1 @@
+PREFIX=%{_usr} PYTHON=python2
