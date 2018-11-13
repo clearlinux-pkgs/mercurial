@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xB9C9DC824AA5BDD5 (raf@durin42.com)
 #
 Name     : mercurial
-Version  : 4.7.2
-Release  : 3
-URL      : https://www.mercurial-scm.org/release/mercurial-4.7.2.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-4.7.2.tar.gz
-Source99 : https://www.mercurial-scm.org/release/mercurial-4.7.2.tar.gz.asc
+Version  : 4.8
+Release  : 4
+URL      : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz
+Source99 : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz.asc
 Summary  : Fast scalable distributed SCM (revision control, version control) system
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
@@ -83,18 +83,18 @@ python components for the mercurial package.
 
 
 %prep
-%setup -q -n mercurial-4.7.2
+%setup -q -n mercurial-4.8
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1541550894
+export SOURCE_DATE_EPOCH=1542085889
 make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python2
 
 %install
-export SOURCE_DATE_EPOCH=1541550894
+export SOURCE_DATE_EPOCH=1542085889
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
