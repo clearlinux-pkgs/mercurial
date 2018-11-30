@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 4.8
-Release  : 4
+Release  : 7
 URL      : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz
 Source99 : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz.asc
@@ -25,6 +25,7 @@ BuildRequires : gcc
 BuildRequires : gettext
 BuildRequires : python-dev
 BuildRequires : setuptools-legacypython
+Patch1: mercurial-locale-path-fix.patch
 
 %description
 Mercurial is a fast, lightweight source control management system designed
@@ -84,17 +85,22 @@ python components for the mercurial package.
 
 %prep
 %setup -q -n mercurial-4.8
+%patch1 -p1
 
 %build
+## build_prepend content
+sed -i 's|python|python2|' %{_builddir}/%{name}-4.8/Makefile %{_builddir}/%{name}-4.8/doc/Makefile
+## build_prepend end
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542085889
+export SOURCE_DATE_EPOCH=1543609261
 make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python2
 
+
 %install
-export SOURCE_DATE_EPOCH=1542085889
+export SOURCE_DATE_EPOCH=1543609261
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
