@@ -1,0 +1,41 @@
+diff --git a/mercurial/rcutil.py b/mercurial/rcutil.py
+--- a/mercurial/rcutil.py
++++ b/mercurial/rcutil.py
+@@ -22,6 +22,7 @@
+ 
+ fallbackpager = scmplatform.fallbackpager
+ systemrcpath = scmplatform.systemrcpath
++clearrcpath = scmplatform.clearrcpath
+ userrcpath = scmplatform.userrcpath
+ 
+ def _expandrcpath(path):
+@@ -86,7 +87,7 @@
+             _rccomponents.extend(('path', p) for p in _expandrcpath(p))
+     else:
+         normpaths = lambda paths: [('path', os.path.normpath(p)) for p in paths]
+-        _rccomponents = normpaths(defaultrcpath() + systemrcpath())
++        _rccomponents = normpaths(defaultrcpath() + systemrcpath() + clearrcpath())
+         _rccomponents.append(envrc)
+         _rccomponents.extend(normpaths(userrcpath()))
+     return _rccomponents
+diff --git a/mercurial/scmposix.py b/mercurial/scmposix.py
+--- a/mercurial/scmposix.py
++++ b/mercurial/scmposix.py
+@@ -43,6 +43,17 @@
+     path.extend(_rcfiles('/' + root))
+     return path
+ 
++def clearrcpath():
++    path = []
++    root = '/usr/share/defaults/mercurial'
++    # old mod_python does not set sys.argv
++    if len(getattr(sys, 'argv', [])) > 0:
++        p = os.path.dirname(os.path.dirname(pycompat.sysargv[0]))
++        if p != '/':
++            path.extend(_rcfiles(os.path.join(p, root)))
++    path.extend(_rcfiles('/' + root))
++    return path
++
+ def userrcpath():
+     if pycompat.sysplatform == 'plan9':
+         return [encoding.environ['home'] + '/lib/hgrc']

@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 4.8
-Release  : 7
+Release  : 8
 URL      : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz
 Source99 : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz.asc
@@ -15,6 +15,7 @@ Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
 Requires: mercurial-bin = %{version}-%{release}
 Requires: mercurial-data = %{version}-%{release}
+Requires: mercurial-libexec = %{version}-%{release}
 Requires: mercurial-license = %{version}-%{release}
 Requires: mercurial-man = %{version}-%{release}
 Requires: mercurial-python = %{version}-%{release}
@@ -26,6 +27,8 @@ BuildRequires : gettext
 BuildRequires : python-dev
 BuildRequires : setuptools-legacypython
 Patch1: mercurial-locale-path-fix.patch
+Patch2: hgk-path-fix.patch
+Patch3: stateless.patch
 
 %description
 Mercurial is a fast, lightweight source control management system designed
@@ -35,6 +38,7 @@ for efficient handling of very large distributed projects.
 Summary: bin components for the mercurial package.
 Group: Binaries
 Requires: mercurial-data = %{version}-%{release}
+Requires: mercurial-libexec = %{version}-%{release}
 Requires: mercurial-license = %{version}-%{release}
 Requires: mercurial-man = %{version}-%{release}
 
@@ -57,6 +61,15 @@ Requires: python-core
 
 %description legacypython
 legacypython components for the mercurial package.
+
+
+%package libexec
+Summary: libexec components for the mercurial package.
+Group: Default
+Requires: mercurial-license = %{version}-%{release}
+
+%description libexec
+libexec components for the mercurial package.
 
 
 %package license
@@ -86,6 +99,8 @@ python components for the mercurial package.
 %prep
 %setup -q -n mercurial-4.8
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 ## build_prepend content
@@ -95,12 +110,19 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1543609261
+export SOURCE_DATE_EPOCH=1543819739
 make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python2
 
 
+%check
+export LANG=C
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+pushd tests && /usr/bin/python2 run-tests.py --local test-s*
+
 %install
-export SOURCE_DATE_EPOCH=1543609261
+export SOURCE_DATE_EPOCH=1543819739
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
@@ -116,13 +138,20 @@ cp mercurial/thirdparty/concurrent/LICENSE %{buildroot}/usr/share/package-licens
 cp mercurial/thirdparty/zope/interface/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_zope_interface_LICENSE.txt
 %make_install PREFIX=%{_usr} PYTHON=python2
 ## install_append content
-install -m0755 contrib/hgk %{buildroot}%{_bindir}
+install -Dm0755 contrib/hgk %{buildroot}%{_libexecdir}/mercurial/hgk
 install -m0755 contrib/hg-ssh %{buildroot}%{_bindir}
 install -Dm0644 contrib/bash_completion %{buildroot}%{_datadir}/bash-completion/completions/hg
 install -Dm0644 contrib/zsh_completion %{buildroot}%{_datadir}/zsh/site-functions/_mercurial
 mkdir -p %{buildroot}%{_datadir}/{x,}emacs/site-lisp
 install -m0644 contrib/*.el %{buildroot}%{_datadir}/emacs/site-lisp
 install -m0644 contrib/*.el %{buildroot}%{_datadir}/xemacs/site-lisp
+cat >hgk.rc <<EOF
+[extensions]
+hgk=
+[hgk]
+path=%{_libexecdir}/mercurial/hgk
+EOF
+install -Dm0644 hgk.rc %{buildroot}%{_datadir}/defaults/mercurial/hgrc.d/hgk.rc
 ## install_append end
 
 %files
@@ -132,11 +161,11 @@ install -m0644 contrib/*.el %{buildroot}%{_datadir}/xemacs/site-lisp
 %defattr(-,root,root,-)
 /usr/bin/hg
 /usr/bin/hg-ssh
-/usr/bin/hgk
 
 %files data
 %defattr(-,root,root,-)
 /usr/share/bash-completion/completions/hg
+/usr/share/defaults/mercurial/hgrc.d/hgk.rc
 /usr/share/emacs/site-lisp/hg-test-mode.el
 /usr/share/emacs/site-lisp/mercurial.el
 /usr/share/emacs/site-lisp/mq.el
@@ -148,6 +177,10 @@ install -m0644 contrib/*.el %{buildroot}%{_datadir}/xemacs/site-lisp
 %files legacypython
 %defattr(-,root,root,-)
 /usr/lib/python2*/*
+
+%files libexec
+%defattr(-,root,root,-)
+/usr/libexec/mercurial/hgk
 
 %files license
 %defattr(0644,root,root,0755)

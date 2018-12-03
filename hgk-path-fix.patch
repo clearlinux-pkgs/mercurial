@@ -1,0 +1,14 @@
+diff -Naru a/contrib/hgk b/contrib/hgk
+--- a/contrib/hgk	2018-11-02 11:18:24.000000000 -0700
++++ b/contrib/hgk	2018-11-30 12:28:41.321621292 -0800
+@@ -4086,6 +4086,10 @@
+ }
+ 
+ # defaults...
++
++if {![info exists env(HG)]} {
++    set env(HG) "hg"
++}
+ set datemode 0
+ set boldnames 0
+ set diffopts "-U 5 -p"

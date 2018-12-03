@@ -1,1 +1,3 @@
 mercurial-locale-path-fix.patch
+hgk-path-fix.patch
+stateless.patch
