@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 4.8
-Release  : 8
+Release  : 9
 URL      : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz
 Source99 : https://www.mercurial-scm.org/release/mercurial-4.8.tar.gz.asc
@@ -19,6 +19,7 @@ Requires: mercurial-libexec = %{version}-%{release}
 Requires: mercurial-license = %{version}-%{release}
 Requires: mercurial-man = %{version}-%{release}
 Requires: mercurial-python = %{version}-%{release}
+Requires: mercurial-legacypython
 BuildRequires : buildreq-distutils3
 BuildRequires : docutils
 BuildRequires : docutils-legacypython
@@ -110,9 +111,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1543819739
+export SOURCE_DATE_EPOCH=1543934208
 make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python2
-
 
 %check
 export LANG=C
@@ -122,7 +122,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python2 run-tests.py --local test-s*
 
 %install
-export SOURCE_DATE_EPOCH=1543819739
+export SOURCE_DATE_EPOCH=1543934208
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
