@@ -6,3 +6,5 @@ docutils
 python-dev
 gcc
 gettext
+subversion
+sqlite-autoconf-dev

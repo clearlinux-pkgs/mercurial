@@ -1,2 +1,2 @@
 # Patch files to use python2
-sed -i 's|python|python2|' %{_builddir}/%{name}-4.8/Makefile %{_builddir}/%{name}-4.8/doc/Makefile
+sed -i 's|python|python2|' %{_builddir}/%{name}-4.8*/Makefile %{_builddir}/%{name}-4.8*/doc/Makefile
