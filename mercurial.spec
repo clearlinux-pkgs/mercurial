@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xB9C9DC824AA5BDD5 (raf@durin42.com)
 #
 Name     : mercurial
-Version  : 4.8.2
-Release  : 11
-URL      : https://www.mercurial-scm.org/release/mercurial-4.8.2.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-4.8.2.tar.gz
-Source99 : https://www.mercurial-scm.org/release/mercurial-4.8.2.tar.gz.asc
+Version  : 4.9
+Release  : 12
+URL      : https://www.mercurial-scm.org/release/mercurial-4.9.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-4.9.tar.gz
+Source99 : https://www.mercurial-scm.org/release/mercurial-4.9.tar.gz.asc
 Summary  : Fast scalable distributed SCM (revision control, version control) system
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
@@ -100,20 +100,20 @@ python components for the mercurial package.
 
 
 %prep
-%setup -q -n mercurial-4.8.2
+%setup -q -n mercurial-4.9
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
 %build
 ## build_prepend content
-sed -i 's|python|python2|' %{_builddir}/%{name}-4.8*/Makefile %{_builddir}/%{name}-4.8*/doc/Makefile
+sed -i 's|python|python2|' %{_builddir}/%{name}-4.9*/Makefile %{_builddir}/%{name}-4.9*/doc/Makefile
 ## build_prepend end
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1546959239
+export SOURCE_DATE_EPOCH=1549061611
 make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python2
 
 
@@ -125,7 +125,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python2 run-tests.py --local test-s*
 
 %install
-export SOURCE_DATE_EPOCH=1546959239
+export SOURCE_DATE_EPOCH=1549061611
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
@@ -133,7 +133,6 @@ cp contrib/packaging/debian/copyright %{buildroot}/usr/share/package-licenses/me
 cp contrib/python-zstandard/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/contrib_python-zstandard_LICENSE
 cp contrib/python-zstandard/zstd/COPYING %{buildroot}/usr/share/package-licenses/mercurial/contrib_python-zstandard_zstd_COPYING
 cp contrib/python-zstandard/zstd/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/contrib_python-zstandard_zstd_LICENSE
-cp contrib/wix/COPYING.rtf %{buildroot}/usr/share/package-licenses/mercurial/contrib_wix_COPYING.rtf
 cp i18n/polib.LICENSE %{buildroot}/usr/share/package-licenses/mercurial/i18n_polib.LICENSE
 cp mercurial/thirdparty/attr/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_attr_LICENSE.txt
 cp mercurial/thirdparty/cbor/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_cbor_LICENSE.txt
@@ -192,7 +191,6 @@ install -Dm0644 hgk.rc %{buildroot}%{_datadir}/defaults/mercurial/hgrc.d/hgk.rc
 /usr/share/package-licenses/mercurial/contrib_python-zstandard_LICENSE
 /usr/share/package-licenses/mercurial/contrib_python-zstandard_zstd_COPYING
 /usr/share/package-licenses/mercurial/contrib_python-zstandard_zstd_LICENSE
-/usr/share/package-licenses/mercurial/contrib_wix_COPYING.rtf
 /usr/share/package-licenses/mercurial/i18n_polib.LICENSE
 /usr/share/package-licenses/mercurial/mercurial_thirdparty_attr_LICENSE.txt
 /usr/share/package-licenses/mercurial/mercurial_thirdparty_cbor_LICENSE.txt
