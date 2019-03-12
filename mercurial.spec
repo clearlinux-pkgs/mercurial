@@ -6,11 +6,11 @@
 #
 Name     : mercurial
 Version  : 4.9
-Release  : 13
+Release  : 14
 URL      : https://www.mercurial-scm.org/release/mercurial-4.9.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-4.9.tar.gz
 Source99 : https://www.mercurial-scm.org/release/mercurial-4.9.tar.gz.asc
-Summary  : Fast scalable distributed SCM (revision control, version control) system
+Summary  : A scalable distributed SCM tool
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
 Requires: mercurial-bin = %{version}-%{release}
@@ -43,7 +43,6 @@ Group: Binaries
 Requires: mercurial-data = %{version}-%{release}
 Requires: mercurial-libexec = %{version}-%{release}
 Requires: mercurial-license = %{version}-%{release}
-Requires: mercurial-man = %{version}-%{release}
 
 %description bin
 bin components for the mercurial package.
@@ -107,13 +106,14 @@ python components for the mercurial package.
 
 %build
 ## build_prepend content
-sed -i 's|python|python2|' %{_builddir}/%{name}-4.9*/Makefile %{_builddir}/%{name}-4.9*/doc/Makefile
+sed -i 's|python|python2|' %{_builddir}/mercurial-4.9*/Makefile %{_builddir}/mercurial-4.9*/doc/Makefile
 ## build_prepend end
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1549061611
+export SOURCE_DATE_EPOCH=1552409620
+export LDFLAGS="${LDFLAGS} -fno-lto"
 make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python2
 
 
@@ -125,7 +125,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python2 run-tests.py --local test-s*
 
 %install
-export SOURCE_DATE_EPOCH=1549061611
+export SOURCE_DATE_EPOCH=1552409620
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
@@ -140,20 +140,20 @@ cp mercurial/thirdparty/concurrent/LICENSE %{buildroot}/usr/share/package-licens
 cp mercurial/thirdparty/zope/interface/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_zope_interface_LICENSE.txt
 %make_install PREFIX=%{_usr} PYTHON=python2
 ## install_append content
-install -Dm0755 contrib/hgk %{buildroot}%{_libexecdir}/mercurial/hgk
-install -m0755 contrib/hg-ssh %{buildroot}%{_bindir}
-install -Dm0644 contrib/bash_completion %{buildroot}%{_datadir}/bash-completion/completions/hg
-install -Dm0644 contrib/zsh_completion %{buildroot}%{_datadir}/zsh/site-functions/_mercurial
-mkdir -p %{buildroot}%{_datadir}/{x,}emacs/site-lisp
-install -m0644 contrib/*.el %{buildroot}%{_datadir}/emacs/site-lisp
-install -m0644 contrib/*.el %{buildroot}%{_datadir}/xemacs/site-lisp
+install -Dm0755 contrib/hgk %{buildroot}/usr/libexec/mercurial/hgk
+install -m0755 contrib/hg-ssh %{buildroot}/usr/bin
+install -Dm0644 contrib/bash_completion %{buildroot}/usr/share/bash-completion/completions/hg
+install -Dm0644 contrib/zsh_completion %{buildroot}/usr/share/zsh/site-functions/_mercurial
+mkdir -p %{buildroot}/usr/share/{x,}emacs/site-lisp
+install -m0644 contrib/*.el %{buildroot}/usr/share/emacs/site-lisp
+install -m0644 contrib/*.el %{buildroot}/usr/share/xemacs/site-lisp
 cat >hgk.rc <<EOF
 [extensions]
 hgk=
 [hgk]
 path=%{_libexecdir}/mercurial/hgk
 EOF
-install -Dm0644 hgk.rc %{buildroot}%{_datadir}/defaults/mercurial/hgrc.d/hgk.rc
+install -Dm0644 hgk.rc %{buildroot}/usr/share/defaults/mercurial/hgrc.d/hgk.rc
 ## install_append end
 
 %files

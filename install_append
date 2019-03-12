@@ -1,10 +1,10 @@
-install -Dm0755 contrib/hgk %{buildroot}%{_libexecdir}/mercurial/hgk
-install -m0755 contrib/hg-ssh %{buildroot}%{_bindir}
-install -Dm0644 contrib/bash_completion %{buildroot}%{_datadir}/bash-completion/completions/hg
-install -Dm0644 contrib/zsh_completion %{buildroot}%{_datadir}/zsh/site-functions/_mercurial
-mkdir -p %{buildroot}%{_datadir}/{x,}emacs/site-lisp
-install -m0644 contrib/*.el %{buildroot}%{_datadir}/emacs/site-lisp
-install -m0644 contrib/*.el %{buildroot}%{_datadir}/xemacs/site-lisp
+install -Dm0755 contrib/hgk %{buildroot}/usr/libexec/mercurial/hgk
+install -m0755 contrib/hg-ssh %{buildroot}/usr/bin
+install -Dm0644 contrib/bash_completion %{buildroot}/usr/share/bash-completion/completions/hg
+install -Dm0644 contrib/zsh_completion %{buildroot}/usr/share/zsh/site-functions/_mercurial
+mkdir -p %{buildroot}/usr/share/{x,}emacs/site-lisp
+install -m0644 contrib/*.el %{buildroot}/usr/share/emacs/site-lisp
+install -m0644 contrib/*.el %{buildroot}/usr/share/xemacs/site-lisp
 
 cat >hgk.rc <<EOF
 [extensions]
@@ -13,4 +13,4 @@ hgk=
 [hgk]
 path=%{_libexecdir}/mercurial/hgk
 EOF
-install -Dm0644 hgk.rc %{buildroot}%{_datadir}/defaults/mercurial/hgrc.d/hgk.rc
+install -Dm0644 hgk.rc %{buildroot}/usr/share/defaults/mercurial/hgrc.d/hgk.rc
