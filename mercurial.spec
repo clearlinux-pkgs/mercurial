@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 4.9.1
-Release  : 15
+Release  : 16
 URL      : https://www.mercurial-scm.org/release/mercurial-4.9.1.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-4.9.1.tar.gz
 Source99 : https://www.mercurial-scm.org/release/mercurial-4.9.1.tar.gz.asc
@@ -21,8 +21,8 @@ Requires: mercurial-man = %{version}-%{release}
 Requires: mercurial-python = %{version}-%{release}
 Requires: mercurial-legacypython
 BuildRequires : buildreq-distutils3
+BuildRequires : deprecated-docutils-legacypython
 BuildRequires : docutils
-BuildRequires : docutils-legacypython
 BuildRequires : gcc
 BuildRequires : gettext
 BuildRequires : python-dev
@@ -112,8 +112,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1553004178
-export LDFLAGS="${LDFLAGS} -fno-lto"
+export SOURCE_DATE_EPOCH=1554318092
 make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python2
 
 
@@ -122,10 +121,10 @@ export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-pushd tests && /usr/bin/python2 run-tests.py --local test-s*
+pushd tests && /usr/bin/python2 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1553004178
+export SOURCE_DATE_EPOCH=1554318092
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
