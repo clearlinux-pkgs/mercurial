@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xB9C9DC824AA5BDD5 (raf@durin42.com)
 #
 Name     : mercurial
-Version  : 4.9.1
-Release  : 16
-URL      : https://www.mercurial-scm.org/release/mercurial-4.9.1.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-4.9.1.tar.gz
-Source99 : https://www.mercurial-scm.org/release/mercurial-4.9.1.tar.gz.asc
+Version  : 5.0
+Release  : 17
+URL      : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz
+Source99 : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz.asc
 Summary  : A scalable distributed SCM tool
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
@@ -19,14 +19,36 @@ Requires: mercurial-libexec = %{version}-%{release}
 Requires: mercurial-license = %{version}-%{release}
 Requires: mercurial-man = %{version}-%{release}
 Requires: mercurial-python = %{version}-%{release}
-Requires: mercurial-legacypython
+Requires: mercurial-python3 = %{version}-%{release}
+Requires: Pygments
+Requires: asn1crypto
+Requires: boto3
+Requires: botocore
+Requires: certifi
+Requires: cffi
+Requires: chardet
+Requires: configparser
+Requires: cryptography
+Requires: docutils
+Requires: dulwich
+Requires: entrypoints
+Requires: idna
+Requires: jmespath
+Requires: keyring
+Requires: ntlm-auth
+Requires: pycparser
+Requires: python-dateutil
+Requires: requests
+Requires: s3transfer
+Requires: six
+Requires: urllib3
 BuildRequires : buildreq-distutils3
-BuildRequires : deprecated-docutils-legacypython
 BuildRequires : docutils
 BuildRequires : gcc
 BuildRequires : gettext
-BuildRequires : python-dev
-BuildRequires : setuptools-legacypython
+BuildRequires : python-zstandard
+BuildRequires : python3-dev
+BuildRequires : setuptools
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : subversion
 Patch1: mercurial-locale-path-fix.patch
@@ -54,15 +76,6 @@ Group: Data
 
 %description data
 data components for the mercurial package.
-
-
-%package legacypython
-Summary: legacypython components for the mercurial package.
-Group: Default
-Requires: python-core
-
-%description legacypython
-legacypython components for the mercurial package.
 
 
 %package libexec
@@ -93,27 +106,44 @@ man components for the mercurial package.
 %package python
 Summary: python components for the mercurial package.
 Group: Default
+Requires: mercurial-python3 = %{version}-%{release}
 
 %description python
 python components for the mercurial package.
 
 
+%package python3
+Summary: python3 components for the mercurial package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the mercurial package.
+
+
 %prep
-%setup -q -n mercurial-4.9.1
+%setup -q -n mercurial-5.0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
 %build
 ## build_prepend content
-sed -i 's|python|python2|' %{_builddir}/mercurial-4.9*/Makefile %{_builddir}/mercurial-4.9*/doc/Makefile
+export HGPYTHON3=1
 ## build_prepend end
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1554318092
-make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python2
+export SOURCE_DATE_EPOCH=1556984921
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
+make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python3
 
 
 %check
@@ -121,11 +151,14 @@ export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-pushd tests && /usr/bin/python2 run-tests.py --local test-s* || :
+pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1554318092
+export SOURCE_DATE_EPOCH=1556984921
 rm -rf %{buildroot}
+## install_prepend content
+export HGPYTHON3=1
+## install_prepend end
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
 cp contrib/packaging/debian/copyright %{buildroot}/usr/share/package-licenses/mercurial/contrib_packaging_debian_copyright
@@ -137,7 +170,7 @@ cp mercurial/thirdparty/attr/LICENSE.txt %{buildroot}/usr/share/package-licenses
 cp mercurial/thirdparty/cbor/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_cbor_LICENSE.txt
 cp mercurial/thirdparty/concurrent/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_concurrent_LICENSE
 cp mercurial/thirdparty/zope/interface/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_zope_interface_LICENSE.txt
-%make_install PREFIX=%{_usr} PYTHON=python2
+%make_install PREFIX=%{_usr} PYTHON=python3
 ## install_append content
 install -Dm0755 contrib/hgk %{buildroot}/usr/libexec/mercurial/hgk
 install -m0755 contrib/hg-ssh %{buildroot}/usr/bin
@@ -175,10 +208,6 @@ install -Dm0644 hgk.rc %{buildroot}/usr/share/defaults/mercurial/hgrc.d/hgk.rc
 /usr/share/xemacs/site-lisp/mq.el
 /usr/share/zsh/site-functions/_mercurial
 
-%files legacypython
-%defattr(-,root,root,-)
-/usr/lib/python2*/*
-
 %files libexec
 %defattr(-,root,root,-)
 /usr/libexec/mercurial/hgk
@@ -205,3 +234,7 @@ install -Dm0644 hgk.rc %{buildroot}/usr/share/defaults/mercurial/hgrc.d/hgk.rc
 
 %files python
 %defattr(-,root,root,-)
+
+%files python3
+%defattr(-,root,root,-)
+/usr/lib/python3*/*

@@ -1,1 +1,1 @@
-PREFIX=%{_usr} PYTHON=python2
+PREFIX=%{_usr} PYTHON=python3
