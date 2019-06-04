@@ -6,11 +6,11 @@
 #
 Name     : mercurial
 Version  : 5.0
-Release  : 17
+Release  : 18
 URL      : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz
 Source99 : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz.asc
-Summary  : A scalable distributed SCM tool
+Summary  : Fast scalable distributed SCM (revision control, version control) system
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
 Requires: mercurial-bin = %{version}-%{release}
@@ -42,15 +42,36 @@ Requires: requests
 Requires: s3transfer
 Requires: six
 Requires: urllib3
+BuildRequires : Pygments
+BuildRequires : asn1crypto
+BuildRequires : boto3
+BuildRequires : botocore
 BuildRequires : buildreq-distutils3
+BuildRequires : certifi
+BuildRequires : cffi
+BuildRequires : chardet
+BuildRequires : configparser
+BuildRequires : cryptography
 BuildRequires : docutils
+BuildRequires : dulwich
+BuildRequires : entrypoints
 BuildRequires : gcc
 BuildRequires : gettext
+BuildRequires : idna
+BuildRequires : jmespath
+BuildRequires : keyring
+BuildRequires : ntlm-auth
+BuildRequires : pycparser
+BuildRequires : python-dateutil
 BuildRequires : python-zstandard
 BuildRequires : python3-dev
+BuildRequires : requests
+BuildRequires : s3transfer
 BuildRequires : setuptools
+BuildRequires : six
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : subversion
+BuildRequires : urllib3
 Patch1: mercurial-locale-path-fix.patch
 Patch2: hgk-path-fix.patch
 Patch3: stateless.patch
@@ -135,7 +156,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1556984921
+export SOURCE_DATE_EPOCH=1559690511
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -154,7 +176,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1556984921
+export SOURCE_DATE_EPOCH=1559690511
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
