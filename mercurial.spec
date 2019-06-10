@@ -5,12 +5,12 @@
 # Source0 file verified with key 0xB9C9DC824AA5BDD5 (raf@durin42.com)
 #
 Name     : mercurial
-Version  : 5.0
-Release  : 18
-URL      : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz
-Source99 : https://www.mercurial-scm.org/release/mercurial-5.0.tar.gz.asc
-Summary  : Fast scalable distributed SCM (revision control, version control) system
+Version  : 5.0.1
+Release  : 19
+URL      : https://www.mercurial-scm.org/release/mercurial-5.0.1.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-5.0.1.tar.gz
+Source99 : https://www.mercurial-scm.org/release/mercurial-5.0.1.tar.gz.asc
+Summary  : A scalable distributed SCM tool
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
 Requires: mercurial-bin = %{version}-%{release}
@@ -143,7 +143,7 @@ python3 components for the mercurial package.
 
 
 %prep
-%setup -q -n mercurial-5.0
+%setup -q -n mercurial-5.0.1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -156,8 +156,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1559690511
-export GCC_IGNORE_WERROR=1
+export SOURCE_DATE_EPOCH=1560183860
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -176,7 +175,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1559690511
+export SOURCE_DATE_EPOCH=1560183860
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
