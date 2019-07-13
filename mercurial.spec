@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 5.0.2
-Release  : 20
+Release  : 21
 URL      : https://www.mercurial-scm.org/release/mercurial-5.0.2.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-5.0.2.tar.gz
 Source99 : https://www.mercurial-scm.org/release/mercurial-5.0.2.tar.gz.asc
