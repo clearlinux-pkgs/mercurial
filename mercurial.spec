@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xB9C9DC824AA5BDD5 (raf@durin42.com)
 #
 Name     : mercurial
-Version  : 5.0.2
-Release  : 21
-URL      : https://www.mercurial-scm.org/release/mercurial-5.0.2.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-5.0.2.tar.gz
-Source99 : https://www.mercurial-scm.org/release/mercurial-5.0.2.tar.gz.asc
+Version  : 5.1
+Release  : 22
+URL      : https://www.mercurial-scm.org/release/mercurial-5.1.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-5.1.tar.gz
+Source1 : https://www.mercurial-scm.org/release/mercurial-5.1.tar.gz.asc
 Summary  : A scalable distributed SCM tool
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
@@ -22,6 +22,7 @@ Requires: mercurial-python = %{version}-%{release}
 Requires: mercurial-python3 = %{version}-%{release}
 Requires: Pygments
 Requires: asn1crypto
+Requires: bcrypt
 Requires: boto3
 Requires: botocore
 Requires: certifi
@@ -36,6 +37,8 @@ Requires: idna
 Requires: jmespath
 Requires: keyring
 Requires: ntlm-auth
+Requires: paramiko
+Requires: pyasn1
 Requires: pycparser
 Requires: python-dateutil
 Requires: requests
@@ -44,6 +47,7 @@ Requires: six
 Requires: urllib3
 BuildRequires : Pygments
 BuildRequires : asn1crypto
+BuildRequires : bcrypt
 BuildRequires : boto3
 BuildRequires : botocore
 BuildRequires : buildreq-distutils3
@@ -61,6 +65,8 @@ BuildRequires : idna
 BuildRequires : jmespath
 BuildRequires : keyring
 BuildRequires : ntlm-auth
+BuildRequires : paramiko
+BuildRequires : pyasn1
 BuildRequires : pycparser
 BuildRequires : python-dateutil
 BuildRequires : python-zstandard
@@ -143,7 +149,7 @@ python3 components for the mercurial package.
 
 
 %prep
-%setup -q -n mercurial-5.0.2
+%setup -q -n mercurial-5.1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -156,7 +162,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1562732368
+export SOURCE_DATE_EPOCH=1564684469
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -176,7 +182,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1562732368
+export SOURCE_DATE_EPOCH=1564684469
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
