@@ -5,12 +5,12 @@
 # Source0 file verified with key 0xB9C9DC824AA5BDD5 (raf@durin42.com)
 #
 Name     : mercurial
-Version  : 5.1.1
-Release  : 23
-URL      : https://www.mercurial-scm.org/release/mercurial-5.1.1.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-5.1.1.tar.gz
-Source1 : https://www.mercurial-scm.org/release/mercurial-5.1.1.tar.gz.asc
-Summary  : A scalable distributed SCM tool
+Version  : 5.1.2
+Release  : 24
+URL      : https://www.mercurial-scm.org/release/mercurial-5.1.2.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-5.1.2.tar.gz
+Source1 : https://www.mercurial-scm.org/release/mercurial-5.1.2.tar.gz.asc
+Summary  : Fast scalable distributed SCM (revision control, version control) system
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
 Requires: mercurial-bin = %{version}-%{release}
@@ -149,7 +149,7 @@ python3 components for the mercurial package.
 
 
 %prep
-%setup -q -n mercurial-5.1.1
+%setup -q -n mercurial-5.1.2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -162,8 +162,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1567719531
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1570064248
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -172,7 +171,7 @@ export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
-make  %{?_smp_mflags} all PREFIX=%{_usr} PYTHON=python3
+make  %{?_smp_mflags}  all PREFIX=%{_usr} PYTHON=python3
 
 
 %check
@@ -183,7 +182,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1567719531
+export SOURCE_DATE_EPOCH=1570064248
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
