@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xB9C9DC824AA5BDD5 (raf@durin42.com)
 #
 Name     : mercurial
-Version  : 5.1.2
-Release  : 24
-URL      : https://www.mercurial-scm.org/release/mercurial-5.1.2.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-5.1.2.tar.gz
-Source1 : https://www.mercurial-scm.org/release/mercurial-5.1.2.tar.gz.asc
+Version  : 5.2
+Release  : 25
+URL      : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz
+Source1 : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz.asc
 Summary  : Fast scalable distributed SCM (revision control, version control) system
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
@@ -23,6 +23,7 @@ Requires: mercurial-python3 = %{version}-%{release}
 Requires: Pygments
 Requires: asn1crypto
 Requires: bcrypt
+Requires: bleach
 Requires: boto3
 Requires: botocore
 Requires: certifi
@@ -34,20 +35,25 @@ Requires: docutils
 Requires: dulwich
 Requires: entrypoints
 Requires: idna
+Requires: ipaddress
 Requires: jmespath
 Requires: keyring
 Requires: ntlm-auth
 Requires: paramiko
-Requires: pyasn1
 Requires: pycparser
 Requires: python-dateutil
 Requires: requests
+Requires: requests-toolbelt
 Requires: s3transfer
+Requires: secretstorage
 Requires: six
+Requires: tqdm
 Requires: urllib3
+Requires: webencodings
 BuildRequires : Pygments
 BuildRequires : asn1crypto
 BuildRequires : bcrypt
+BuildRequires : bleach
 BuildRequires : boto3
 BuildRequires : botocore
 BuildRequires : buildreq-distutils3
@@ -62,22 +68,26 @@ BuildRequires : entrypoints
 BuildRequires : gcc
 BuildRequires : gettext
 BuildRequires : idna
+BuildRequires : ipaddress
 BuildRequires : jmespath
 BuildRequires : keyring
 BuildRequires : ntlm-auth
 BuildRequires : paramiko
-BuildRequires : pyasn1
 BuildRequires : pycparser
 BuildRequires : python-dateutil
 BuildRequires : python-zstandard
 BuildRequires : python3-dev
 BuildRequires : requests
+BuildRequires : requests-toolbelt
 BuildRequires : s3transfer
+BuildRequires : secretstorage
 BuildRequires : setuptools
 BuildRequires : six
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : subversion
+BuildRequires : tqdm
 BuildRequires : urllib3
+BuildRequires : webencodings
 Patch1: mercurial-locale-path-fix.patch
 Patch2: hgk-path-fix.patch
 Patch3: stateless.patch
@@ -149,7 +159,8 @@ python3 components for the mercurial package.
 
 
 %prep
-%setup -q -n mercurial-5.1.2
+%setup -q -n mercurial-5.2
+cd %{_builddir}/mercurial-5.2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -162,7 +173,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1570064248
+export SOURCE_DATE_EPOCH=1573090135
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -182,23 +193,23 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1570064248
+export SOURCE_DATE_EPOCH=1573090135
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
 ## install_prepend end
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
-cp COPYING %{buildroot}/usr/share/package-licenses/mercurial/COPYING
-cp contrib/packaging/debian/copyright %{buildroot}/usr/share/package-licenses/mercurial/contrib_packaging_debian_copyright
-cp contrib/packaging/wix/COPYING.rtf %{buildroot}/usr/share/package-licenses/mercurial/contrib_packaging_wix_COPYING.rtf
-cp contrib/python-zstandard/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/contrib_python-zstandard_LICENSE
-cp contrib/python-zstandard/zstd/COPYING %{buildroot}/usr/share/package-licenses/mercurial/contrib_python-zstandard_zstd_COPYING
-cp contrib/python-zstandard/zstd/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/contrib_python-zstandard_zstd_LICENSE
-cp i18n/polib.LICENSE %{buildroot}/usr/share/package-licenses/mercurial/i18n_polib.LICENSE
-cp mercurial/thirdparty/attr/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_attr_LICENSE.txt
-cp mercurial/thirdparty/cbor/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_cbor_LICENSE.txt
-cp mercurial/thirdparty/concurrent/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_concurrent_LICENSE
-cp mercurial/thirdparty/zope/interface/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/mercurial_thirdparty_zope_interface_LICENSE.txt
+cp %{_builddir}/mercurial-5.2/COPYING %{buildroot}/usr/share/package-licenses/mercurial/4cc77b90af91e615a64ae04893fdffa7939db84c
+cp %{_builddir}/mercurial-5.2/contrib/packaging/debian/copyright %{buildroot}/usr/share/package-licenses/mercurial/f4be4ba835ab1c6d853a11ce8f54719180576869
+cp %{_builddir}/mercurial-5.2/contrib/packaging/wix/COPYING.rtf %{buildroot}/usr/share/package-licenses/mercurial/8c3aee6076f3347351e63a89a52d3048e5e52a73
+cp %{_builddir}/mercurial-5.2/contrib/python-zstandard/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/bdfd20ae0e3f88b5609da6191fbb89f33933d948
+cp %{_builddir}/mercurial-5.2/contrib/python-zstandard/zstd/COPYING %{buildroot}/usr/share/package-licenses/mercurial/1d8c93712cbc9117a9e55a7ff86cebd066c8bfd8
+cp %{_builddir}/mercurial-5.2/contrib/python-zstandard/zstd/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/c4130945ca3d1f8ea4a3e8af36d3c18b2232116c
+cp %{_builddir}/mercurial-5.2/i18n/polib.LICENSE %{buildroot}/usr/share/package-licenses/mercurial/f82bb0ed21661ead2ef217c636e572ac55fad68b
+cp %{_builddir}/mercurial-5.2/mercurial/thirdparty/attr/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/00ff890e8493d10b07d5d3fafa23639bb071e443
+cp %{_builddir}/mercurial-5.2/mercurial/thirdparty/cbor/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/a51ccdcb7a9d8c2116d1dfc16f11b3c8a5830f67
+cp %{_builddir}/mercurial-5.2/mercurial/thirdparty/concurrent/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/317697855104f4f264a8e8c266b4760991684440
+cp %{_builddir}/mercurial-5.2/mercurial/thirdparty/zope/interface/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/a0b53f43aab58b46bf79ba756c50771c605ab4c5
 %make_install PREFIX=%{_usr} PYTHON=python3
 ## install_append content
 install -Dm0755 contrib/hgk %{buildroot}/usr/libexec/mercurial/hgk
@@ -243,17 +254,17 @@ install -Dm0644 hgk.rc %{buildroot}/usr/share/defaults/mercurial/hgrc.d/hgk.rc
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/mercurial/COPYING
-/usr/share/package-licenses/mercurial/contrib_packaging_debian_copyright
-/usr/share/package-licenses/mercurial/contrib_packaging_wix_COPYING.rtf
-/usr/share/package-licenses/mercurial/contrib_python-zstandard_LICENSE
-/usr/share/package-licenses/mercurial/contrib_python-zstandard_zstd_COPYING
-/usr/share/package-licenses/mercurial/contrib_python-zstandard_zstd_LICENSE
-/usr/share/package-licenses/mercurial/i18n_polib.LICENSE
-/usr/share/package-licenses/mercurial/mercurial_thirdparty_attr_LICENSE.txt
-/usr/share/package-licenses/mercurial/mercurial_thirdparty_cbor_LICENSE.txt
-/usr/share/package-licenses/mercurial/mercurial_thirdparty_concurrent_LICENSE
-/usr/share/package-licenses/mercurial/mercurial_thirdparty_zope_interface_LICENSE.txt
+/usr/share/package-licenses/mercurial/00ff890e8493d10b07d5d3fafa23639bb071e443
+/usr/share/package-licenses/mercurial/1d8c93712cbc9117a9e55a7ff86cebd066c8bfd8
+/usr/share/package-licenses/mercurial/317697855104f4f264a8e8c266b4760991684440
+/usr/share/package-licenses/mercurial/4cc77b90af91e615a64ae04893fdffa7939db84c
+/usr/share/package-licenses/mercurial/8c3aee6076f3347351e63a89a52d3048e5e52a73
+/usr/share/package-licenses/mercurial/a0b53f43aab58b46bf79ba756c50771c605ab4c5
+/usr/share/package-licenses/mercurial/a51ccdcb7a9d8c2116d1dfc16f11b3c8a5830f67
+/usr/share/package-licenses/mercurial/bdfd20ae0e3f88b5609da6191fbb89f33933d948
+/usr/share/package-licenses/mercurial/c4130945ca3d1f8ea4a3e8af36d3c18b2232116c
+/usr/share/package-licenses/mercurial/f4be4ba835ab1c6d853a11ce8f54719180576869
+/usr/share/package-licenses/mercurial/f82bb0ed21661ead2ef217c636e572ac55fad68b
 
 %files man
 %defattr(0644,root,root,0755)
