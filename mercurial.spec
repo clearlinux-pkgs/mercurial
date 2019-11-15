@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 5.2
-Release  : 25
+Release  : 26
 URL      : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz
 Source1 : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz.asc
@@ -29,7 +29,6 @@ Requires: botocore
 Requires: certifi
 Requires: cffi
 Requires: chardet
-Requires: configparser
 Requires: cryptography
 Requires: docutils
 Requires: dulwich
@@ -60,7 +59,6 @@ BuildRequires : buildreq-distutils3
 BuildRequires : certifi
 BuildRequires : cffi
 BuildRequires : chardet
-BuildRequires : configparser
 BuildRequires : cryptography
 BuildRequires : docutils
 BuildRequires : dulwich
@@ -173,7 +171,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1573090135
+export SOURCE_DATE_EPOCH=1573848659
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -193,7 +191,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1573090135
+export SOURCE_DATE_EPOCH=1573848659
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
