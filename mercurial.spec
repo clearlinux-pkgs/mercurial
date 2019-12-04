@@ -6,10 +6,11 @@
 #
 Name     : mercurial
 Version  : 5.2
-Release  : 26
+Release  : 27
 URL      : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz
-Source1 : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz.asc
+Source1  : https://www.mercurial-scm.org/release/mercurial-5.2.tar.gz.asc
+Source2  : hgk.rc
 Summary  : Fast scalable distributed SCM (revision control, version control) system
 Group    : Development/Tools
 License  : BSD-3-Clause GPL-2.0 GPL-2.0+ MIT Python-2.0 ZPL-2.1
@@ -171,7 +172,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1573848659
+export SOURCE_DATE_EPOCH=1575426267
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -191,7 +192,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1573848659
+export SOURCE_DATE_EPOCH=1575426267
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
@@ -209,6 +210,8 @@ cp %{_builddir}/mercurial-5.2/mercurial/thirdparty/cbor/LICENSE.txt %{buildroot}
 cp %{_builddir}/mercurial-5.2/mercurial/thirdparty/concurrent/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/317697855104f4f264a8e8c266b4760991684440
 cp %{_builddir}/mercurial-5.2/mercurial/thirdparty/zope/interface/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/a0b53f43aab58b46bf79ba756c50771c605ab4c5
 %make_install PREFIX=%{_usr} PYTHON=python3
+mkdir -p %{buildroot}/usr/share/defaults/mercurial/hgrc.d
+install -Dm0644 %{_sourcedir}/hgk.rc %{buildroot}/usr/share/defaults/mercurial/hgrc.d/hgk.rc
 ## install_append content
 install -Dm0755 contrib/hgk %{buildroot}/usr/libexec/mercurial/hgk
 install -m0755 contrib/hg-ssh %{buildroot}/usr/bin
@@ -217,13 +220,6 @@ install -Dm0644 contrib/zsh_completion %{buildroot}/usr/share/zsh/site-functions
 mkdir -p %{buildroot}/usr/share/{x,}emacs/site-lisp
 install -m0644 contrib/*.el %{buildroot}/usr/share/emacs/site-lisp
 install -m0644 contrib/*.el %{buildroot}/usr/share/xemacs/site-lisp
-cat >hgk.rc <<EOF
-[extensions]
-hgk=
-[hgk]
-path=%{_libexecdir}/mercurial/hgk
-EOF
-install -Dm0644 hgk.rc %{buildroot}/usr/share/defaults/mercurial/hgrc.d/hgk.rc
 ## install_append end
 
 %files
