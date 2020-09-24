@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 5.5.1
-Release  : 34
+Release  : 35
 URL      : https://www.mercurial-scm.org/release/mercurial-5.5.1.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-5.5.1.tar.gz
 Source1  : https://www.mercurial-scm.org/release/mercurial-5.5.1.tar.gz.asc
