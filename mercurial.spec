@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 5.8
-Release  : 41
+Release  : 42
 URL      : https://www.mercurial-scm.org/release/mercurial-5.8.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-5.8.tar.gz
 Source1  : https://www.mercurial-scm.org/release/mercurial-5.8.tar.gz.asc
