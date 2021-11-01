@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 5.9.3
-Release  : 52
+Release  : 53
 URL      : https://www.mercurial-scm.org/release/mercurial-5.9.3.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-5.9.3.tar.gz
 Source1  : https://www.mercurial-scm.org/release/mercurial-5.9.3.tar.gz.asc
@@ -168,7 +168,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1635258680
+export SOURCE_DATE_EPOCH=1635753312
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -188,7 +188,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1635258680
+export SOURCE_DATE_EPOCH=1635753312
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
