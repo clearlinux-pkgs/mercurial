@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x3A33DE460D9EC39F (7895pulkit@gmail.com)
 #
 Name     : mercurial
-Version  : 5.9.3
-Release  : 53
-URL      : https://www.mercurial-scm.org/release/mercurial-5.9.3.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-5.9.3.tar.gz
-Source1  : https://www.mercurial-scm.org/release/mercurial-5.9.3.tar.gz.asc
+Version  : 6.0
+Release  : 54
+URL      : https://www.mercurial-scm.org/release/mercurial-6.0.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-6.0.tar.gz
+Source1  : https://www.mercurial-scm.org/release/mercurial-6.0.tar.gz.asc
 Source2  : hgk.rc
 Summary  : Fast scalable distributed SCM (revision control, version control) system
 Group    : Development/Tools
@@ -21,68 +21,47 @@ Requires: mercurial-license = %{version}-%{release}
 Requires: mercurial-man = %{version}-%{release}
 Requires: mercurial-python = %{version}-%{release}
 Requires: mercurial-python3 = %{version}-%{release}
-Requires: Jinja2
-Requires: Pygments
-Requires: asn1crypto
-Requires: bcrypt
-Requires: bleach
-Requires: boto3
-Requires: botocore
-Requires: certifi
-Requires: cffi
-Requires: chardet
-Requires: cryptography
-Requires: docutils
-Requires: idna
-Requires: jmespath
-Requires: ntlm-auth
-Requires: paramiko
-Requires: pkginfo
-Requires: pycparser
-Requires: python-dateutil
-Requires: requests
-Requires: requests-toolbelt
-Requires: s3transfer
-Requires: six
-Requires: tqdm
-Requires: twine
-Requires: urllib3
-Requires: webencodings
-BuildRequires : Jinja2
-BuildRequires : Pygments
-BuildRequires : asn1crypto
-BuildRequires : bcrypt
-BuildRequires : bleach
-BuildRequires : boto3
-BuildRequires : botocore
 BuildRequires : buildreq-distutils3
-BuildRequires : certifi
-BuildRequires : cffi
-BuildRequires : chardet
-BuildRequires : cryptography
 BuildRequires : docutils
 BuildRequires : gcc
 BuildRequires : gettext
-BuildRequires : idna
-BuildRequires : jmespath
-BuildRequires : ntlm-auth
-BuildRequires : paramiko
-BuildRequires : pkginfo
-BuildRequires : pycparser
-BuildRequires : python-dateutil
-BuildRequires : python-zstandard
+BuildRequires : pypi(asn1crypto)
+BuildRequires : pypi(bcrypt)
+BuildRequires : pypi(bleach)
+BuildRequires : pypi(boto3)
+BuildRequires : pypi(botocore)
+BuildRequires : pypi(certifi)
+BuildRequires : pypi(cffi)
+BuildRequires : pypi(chardet)
+BuildRequires : pypi(cryptography)
+BuildRequires : pypi(docutils)
+BuildRequires : pypi(idna)
+BuildRequires : pypi(jinja2)
+BuildRequires : pypi(jmespath)
+BuildRequires : pypi(markupsafe)
+BuildRequires : pypi(ntlm_auth)
+BuildRequires : pypi(paramiko)
+BuildRequires : pypi(persistent)
+BuildRequires : pypi(pkginfo)
+BuildRequires : pypi(pycparser)
+BuildRequires : pypi(pygments)
+BuildRequires : pypi(pynacl)
+BuildRequires : pypi(pypsrp)
+BuildRequires : pypi(python_dateutil)
+BuildRequires : pypi(readme_renderer)
+BuildRequires : pypi(requests)
+BuildRequires : pypi(requests_toolbelt)
+BuildRequires : pypi(s3transfer)
+BuildRequires : pypi(setuptools)
+BuildRequires : pypi(six)
+BuildRequires : pypi(tqdm)
+BuildRequires : pypi(twine)
+BuildRequires : pypi(urllib3)
+BuildRequires : pypi(webencodings)
+BuildRequires : pypi(wheel)
 BuildRequires : python3-dev
-BuildRequires : requests
-BuildRequires : requests-toolbelt
-BuildRequires : s3transfer
-BuildRequires : setuptools
-BuildRequires : six
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : subversion
-BuildRequires : tqdm
-BuildRequires : twine
-BuildRequires : urllib3
-BuildRequires : webencodings
 Patch1: mercurial-locale-path-fix.patch
 Patch2: hgk-path-fix.patch
 Patch3: stateless.patch
@@ -154,8 +133,8 @@ python3 components for the mercurial package.
 
 
 %prep
-%setup -q -n mercurial-5.9.3
-cd %{_builddir}/mercurial-5.9.3
+%setup -q -n mercurial-6.0
+cd %{_builddir}/mercurial-6.0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -168,7 +147,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1635753312
+export SOURCE_DATE_EPOCH=1641602356
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -188,23 +167,23 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1635753312
+export SOURCE_DATE_EPOCH=1641602356
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
 ## install_prepend end
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
-cp %{_builddir}/mercurial-5.9.3/COPYING %{buildroot}/usr/share/package-licenses/mercurial/4cc77b90af91e615a64ae04893fdffa7939db84c
-cp %{_builddir}/mercurial-5.9.3/contrib/packaging/debian/copyright %{buildroot}/usr/share/package-licenses/mercurial/a6910991bf1d49c1989a4b11ce2efd2ec57a830e
-cp %{_builddir}/mercurial-5.9.3/contrib/python-zstandard/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/bdfd20ae0e3f88b5609da6191fbb89f33933d948
-cp %{_builddir}/mercurial-5.9.3/contrib/python-zstandard/zstd/COPYING %{buildroot}/usr/share/package-licenses/mercurial/1d8c93712cbc9117a9e55a7ff86cebd066c8bfd8
-cp %{_builddir}/mercurial-5.9.3/contrib/python-zstandard/zstd/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/c4130945ca3d1f8ea4a3e8af36d3c18b2232116c
-cp %{_builddir}/mercurial-5.9.3/i18n/polib.LICENSE %{buildroot}/usr/share/package-licenses/mercurial/f82bb0ed21661ead2ef217c636e572ac55fad68b
-cp %{_builddir}/mercurial-5.9.3/mercurial/thirdparty/attr/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/00ff890e8493d10b07d5d3fafa23639bb071e443
-cp %{_builddir}/mercurial-5.9.3/mercurial/thirdparty/cbor/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/a51ccdcb7a9d8c2116d1dfc16f11b3c8a5830f67
-cp %{_builddir}/mercurial-5.9.3/mercurial/thirdparty/concurrent/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/317697855104f4f264a8e8c266b4760991684440
-cp %{_builddir}/mercurial-5.9.3/mercurial/thirdparty/sha1dc/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/f0197ae0a546d825bcd59ba21034f36272080a4a
-cp %{_builddir}/mercurial-5.9.3/mercurial/thirdparty/zope/interface/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/a0b53f43aab58b46bf79ba756c50771c605ab4c5
+cp %{_builddir}/mercurial-6.0/COPYING %{buildroot}/usr/share/package-licenses/mercurial/4cc77b90af91e615a64ae04893fdffa7939db84c
+cp %{_builddir}/mercurial-6.0/contrib/packaging/debian/copyright %{buildroot}/usr/share/package-licenses/mercurial/a6910991bf1d49c1989a4b11ce2efd2ec57a830e
+cp %{_builddir}/mercurial-6.0/contrib/python-zstandard/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/bdfd20ae0e3f88b5609da6191fbb89f33933d948
+cp %{_builddir}/mercurial-6.0/contrib/python-zstandard/zstd/COPYING %{buildroot}/usr/share/package-licenses/mercurial/1d8c93712cbc9117a9e55a7ff86cebd066c8bfd8
+cp %{_builddir}/mercurial-6.0/contrib/python-zstandard/zstd/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/c4130945ca3d1f8ea4a3e8af36d3c18b2232116c
+cp %{_builddir}/mercurial-6.0/i18n/polib.LICENSE %{buildroot}/usr/share/package-licenses/mercurial/f82bb0ed21661ead2ef217c636e572ac55fad68b
+cp %{_builddir}/mercurial-6.0/mercurial/thirdparty/attr/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/00ff890e8493d10b07d5d3fafa23639bb071e443
+cp %{_builddir}/mercurial-6.0/mercurial/thirdparty/cbor/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/a51ccdcb7a9d8c2116d1dfc16f11b3c8a5830f67
+cp %{_builddir}/mercurial-6.0/mercurial/thirdparty/concurrent/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/317697855104f4f264a8e8c266b4760991684440
+cp %{_builddir}/mercurial-6.0/mercurial/thirdparty/sha1dc/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/f0197ae0a546d825bcd59ba21034f36272080a4a
+cp %{_builddir}/mercurial-6.0/mercurial/thirdparty/zope/interface/LICENSE.txt %{buildroot}/usr/share/package-licenses/mercurial/a0b53f43aab58b46bf79ba756c50771c605ab4c5
 %make_install PREFIX=%{_usr} PYTHON=python3
 mkdir -p %{buildroot}/usr/share/defaults/mercurial/hgrc.d
 install -Dm0644 %{_sourcedir}/hgk.rc %{buildroot}/usr/share/defaults/mercurial/hgrc.d/hgk.rc
