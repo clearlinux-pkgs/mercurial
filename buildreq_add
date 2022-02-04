@@ -1,10 +1,10 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
-pypi(setuptools)
 docutils
-python3-dev
 gcc
 gettext
-subversion
-sqlite-autoconf-dev
 pypi(python_zstandard)
+pypi(setuptools)
+python3-dev
+sqlite-autoconf-dev
+subversion

@@ -1,7 +1,8 @@
-diff -Naru a/contrib/hgk b/contrib/hgk
---- a/contrib/hgk	2018-11-02 11:18:24.000000000 -0700
-+++ b/contrib/hgk	2018-11-30 12:28:41.321621292 -0800
-@@ -4086,6 +4086,10 @@
+diff --git a/contrib/hgk b/contrib/hgk
+index e4ab8d4..88c00f0 100755
+--- a/contrib/hgk
++++ b/contrib/hgk
+@@ -4086,6 +4086,10 @@ proc getconfig {} {
  }
  
  # defaults...

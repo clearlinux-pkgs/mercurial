@@ -1,7 +1,8 @@
-diff -ru mercurial-5.3.2~/mercurial/rcutil.py mercurial-5.3.2/mercurial/rcutil.py
---- mercurial-5.3.2~/mercurial/rcutil.py	2020-04-02 09:05:39.000000000 -0700
-+++ mercurial-5.3.2/mercurial/rcutil.py	2020-04-13 17:19:07.324010738 -0700
-@@ -24,6 +24,7 @@
+diff --git a/mercurial/rcutil.py b/mercurial/rcutil.py
+index 38fe8eb..a2b572d 100644
+--- a/mercurial/rcutil.py
++++ b/mercurial/rcutil.py
+@@ -24,6 +24,7 @@ else:
  
  fallbackpager = scmplatform.fallbackpager
  systemrcpath = scmplatform.systemrcpath
@@ -9,7 +10,7 @@ diff -ru mercurial-5.3.2~/mercurial/rcutil.py mercurial-5.3.2/mercurial/rcutil.p
  userrcpath = scmplatform.userrcpath
  
  
-@@ -102,6 +103,7 @@
+@@ -102,6 +103,7 @@ def rccomponents():
              (b'path', os.path.normpath(p)) for p in paths
          ]
          _rccomponents.extend(normpaths(systemrcpath()))
@@ -17,10 +18,11 @@ diff -ru mercurial-5.3.2~/mercurial/rcutil.py mercurial-5.3.2/mercurial/rcutil.p
          _rccomponents.append(envrc)
          _rccomponents.extend(normpaths(userrcpath()))
      return _rccomponents
-diff -ru mercurial-5.3.2~/mercurial/scmposix.py mercurial-5.3.2/mercurial/scmposix.py
---- mercurial-5.3.2~/mercurial/scmposix.py	2020-04-02 09:05:39.000000000 -0700
-+++ mercurial-5.3.2/mercurial/scmposix.py	2020-04-13 17:20:57.003109516 -0700
-@@ -51,6 +51,18 @@
+diff --git a/mercurial/scmposix.py b/mercurial/scmposix.py
+index 76fe8be..d9b9e07 100644
+--- a/mercurial/scmposix.py
++++ b/mercurial/scmposix.py
+@@ -51,6 +51,18 @@ def systemrcpath():
      return path
  
  
