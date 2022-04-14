@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 6.1.1
-Release  : 58
+Release  : 59
 URL      : https://www.mercurial-scm.org/release/mercurial-6.1.1.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-6.1.1.tar.gz
 Source1  : https://www.mercurial-scm.org/release/mercurial-6.1.1.tar.gz.asc
@@ -22,11 +22,11 @@ Requires: mercurial-man = %{version}-%{release}
 Requires: mercurial-python = %{version}-%{release}
 Requires: mercurial-python3 = %{version}-%{release}
 BuildRequires : buildreq-distutils3
-BuildRequires : docutils
 BuildRequires : gcc
 BuildRequires : gettext
 BuildRequires : pypi(setuptools)
 BuildRequires : pypi(wheel)
+BuildRequires : pypi-docutils
 BuildRequires : python3-dev
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : subversion
@@ -115,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1649266249
+export SOURCE_DATE_EPOCH=1649966983
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -135,7 +135,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1649266249
+export SOURCE_DATE_EPOCH=1649966983
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
