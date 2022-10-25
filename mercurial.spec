@@ -6,7 +6,7 @@
 #
 Name     : mercurial
 Version  : 6.2.3
-Release  : 66
+Release  : 67
 URL      : https://www.mercurial-scm.org/release/mercurial-6.2.3.tar.gz
 Source0  : https://www.mercurial-scm.org/release/mercurial-6.2.3.tar.gz
 Source1  : https://www.mercurial-scm.org/release/mercurial-6.2.3.tar.gz.asc
