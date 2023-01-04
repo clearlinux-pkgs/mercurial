@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA11E01CD0E05D956 (alphare@raphaelgomes.dev)
 #
 Name     : mercurial
-Version  : 6.3.1
-Release  : 69
-URL      : https://www.mercurial-scm.org/release/mercurial-6.3.1.tar.gz
-Source0  : https://www.mercurial-scm.org/release/mercurial-6.3.1.tar.gz
-Source1  : https://www.mercurial-scm.org/release/mercurial-6.3.1.tar.gz.asc
+Version  : 6.3.2
+Release  : 70
+URL      : https://www.mercurial-scm.org/release/mercurial-6.3.2.tar.gz
+Source0  : https://www.mercurial-scm.org/release/mercurial-6.3.2.tar.gz
+Source1  : https://www.mercurial-scm.org/release/mercurial-6.3.2.tar.gz.asc
 Source2  : hgk.rc
 Summary  : Fast scalable distributed SCM (revision control, version control) system
 Group    : Development/Tools
@@ -40,6 +40,9 @@ BuildRequires : pypi-docutils
 BuildRequires : python3-dev
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : subversion
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 Patch1: mercurial-locale-path-fix.patch
 Patch2: hgk-path-fix.patch
 Patch3: stateless.patch
@@ -121,8 +124,8 @@ python3 components for the mercurial package.
 
 
 %prep
-%setup -q -n mercurial-6.3.1
-cd %{_builddir}/mercurial-6.3.1
+%setup -q -n mercurial-6.3.2
+cd %{_builddir}/mercurial-6.3.2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -135,15 +138,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1669045645
+export SOURCE_DATE_EPOCH=1672848262
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
 make  %{?_smp_mflags}  all PREFIX=%{_usr} PYTHON=python3
 
 
@@ -155,14 +158,13 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 pushd tests && /usr/bin/python3 run-tests.py --local test-s* || :
 
 %install
-export SOURCE_DATE_EPOCH=1669045645
+export SOURCE_DATE_EPOCH=1672848262
 rm -rf %{buildroot}
 ## install_prepend content
 export HGPYTHON3=1
 ## install_prepend end
 mkdir -p %{buildroot}/usr/share/package-licenses/mercurial
 cp %{_builddir}/mercurial-%{version}/COPYING %{buildroot}/usr/share/package-licenses/mercurial/4cc77b90af91e615a64ae04893fdffa7939db84c || :
-cp %{_builddir}/mercurial-%{version}/contrib/packaging/debian/copyright %{buildroot}/usr/share/package-licenses/mercurial/59e96b0fb713dd61e0b28334243f9d92a8f29e7a || :
 cp %{_builddir}/mercurial-%{version}/contrib/python-zstandard/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/bdfd20ae0e3f88b5609da6191fbb89f33933d948 || :
 cp %{_builddir}/mercurial-%{version}/contrib/python-zstandard/zstd/COPYING %{buildroot}/usr/share/package-licenses/mercurial/1d8c93712cbc9117a9e55a7ff86cebd066c8bfd8 || :
 cp %{_builddir}/mercurial-%{version}/contrib/python-zstandard/zstd/LICENSE %{buildroot}/usr/share/package-licenses/mercurial/c4130945ca3d1f8ea4a3e8af36d3c18b2232116c || :
@@ -214,7 +216,6 @@ install -m0644 contrib/*.el %{buildroot}/usr/share/xemacs/site-lisp
 /usr/share/package-licenses/mercurial/00ff890e8493d10b07d5d3fafa23639bb071e443
 /usr/share/package-licenses/mercurial/1d8c93712cbc9117a9e55a7ff86cebd066c8bfd8
 /usr/share/package-licenses/mercurial/4cc77b90af91e615a64ae04893fdffa7939db84c
-/usr/share/package-licenses/mercurial/59e96b0fb713dd61e0b28334243f9d92a8f29e7a
 /usr/share/package-licenses/mercurial/a0b53f43aab58b46bf79ba756c50771c605ab4c5
 /usr/share/package-licenses/mercurial/a51ccdcb7a9d8c2116d1dfc16f11b3c8a5830f67
 /usr/share/package-licenses/mercurial/bdfd20ae0e3f88b5609da6191fbb89f33933d948
