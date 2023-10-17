@@ -1,8 +1,19 @@
+From 324927454be898162ec01cfafa13f1d9dc7b880c Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Tue, 17 Oct 2023 14:31:48 -0700
+Subject: [PATCH] stateless
+
+Signed-off-by: William Douglas <william.douglas@intel.com>
+---
+ mercurial/rcutil.py   |  2 ++
+ mercurial/scmposix.py | 12 ++++++++++++
+ 2 files changed, 14 insertions(+)
+
 diff --git a/mercurial/rcutil.py b/mercurial/rcutil.py
-index 38fe8eb..a2b572d 100644
+index 8fbad95..2be10f8 100644
 --- a/mercurial/rcutil.py
 +++ b/mercurial/rcutil.py
-@@ -24,6 +24,7 @@ else:
+@@ -23,6 +23,7 @@ else:
  
  fallbackpager = scmplatform.fallbackpager
  systemrcpath = scmplatform.systemrcpath
@@ -10,7 +21,7 @@ index 38fe8eb..a2b572d 100644
  userrcpath = scmplatform.userrcpath
  
  
-@@ -102,6 +103,7 @@ def rccomponents():
+@@ -101,6 +102,7 @@ def rccomponents():
              (b'path', os.path.normpath(p)) for p in paths
          ]
          _rccomponents.extend(normpaths(systemrcpath()))
@@ -19,10 +30,10 @@ index 38fe8eb..a2b572d 100644
          _rccomponents.extend(normpaths(userrcpath()))
      return _rccomponents
 diff --git a/mercurial/scmposix.py b/mercurial/scmposix.py
-index 76fe8be..d9b9e07 100644
+index cade07b..11043f2 100644
 --- a/mercurial/scmposix.py
 +++ b/mercurial/scmposix.py
-@@ -51,6 +51,18 @@ def systemrcpath():
+@@ -57,6 +57,18 @@ def systemrcpath() -> List[bytes]:
      return path
  
  
@@ -38,6 +49,9 @@ index 76fe8be..d9b9e07 100644
 +    return path
 +
 +
- def userrcpath():
+ def userrcpath() -> List[bytes]:
      if pycompat.sysplatform == b'plan9':
          return [encoding.environ[b'home'] + b'/lib/hgrc']
+-- 
+2.42.0
+
